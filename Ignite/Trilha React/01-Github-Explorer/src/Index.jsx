@@ -1,8 +1,8 @@
 import { render } from 'react-dom'
-import React from 'react'
+import { App } from './App.jsx'
 
 render(
-    <h1>Hello World!</h1>, 
+    <App />,
     document.getElementById('root'), 
     () =>  console.log('Componente renderizado!')
 )
