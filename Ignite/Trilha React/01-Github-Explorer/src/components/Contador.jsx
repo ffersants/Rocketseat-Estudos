@@ -11,7 +11,7 @@ export function Contador(){
     return(
         <>
             <h1>{total}</h1>
-            <button type="button" onClick={add}>Adicionar</button>
+            <button type="button" onClick={add}>Adicasdfasdfionar</button>
         </>
     )
 }
