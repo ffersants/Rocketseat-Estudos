@@ -1,7 +1,6 @@
 import { useHistory } from "react-router";
-import { useContext } from "react";
 
-import { AuthContext } from "../contexts/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 
 import illustrationImg from "../assets/illustration.svg";
 import logoImg from "../assets/logo.svg";
@@ -12,7 +11,7 @@ import "../styles/auth.scss";
 import { Button } from "../components/Button";
 
 export function Home() {
-  const { user, signInWithGoogle } = useContext(AuthContext);
+  const { user, signInWithGoogle } = useAuth();
 
   const history = useHistory();
 
