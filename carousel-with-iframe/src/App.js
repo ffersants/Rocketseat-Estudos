@@ -3,15 +3,19 @@ import data from "./data";
 import "rsuite/dist/styles/rsuite-default.css";
 import style from "./style.module.css";
 import Arrows from "./Arrows/Arrows.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 function App() {
-  const [pdfLinkToRender, setPdfLinkdToRender] = useState(
+  const [selectedElement, setSelectedElement] = useState(
     "http://www.africau.edu/images/default/sample.pdf"
   );
 
   function handleSelect(e) {
-    setPdfLinkdToRender(e.link);
+    setSelectedElement(e);
   }
+
+  useEffect(() => {
+    console.log("aquiiiiiiiiii", selectedElement);
+  }, [selectedElement]);
 
   return (
     <div className={style.app}>
@@ -27,9 +31,13 @@ function App() {
       </div>
 
       <div className={style.container}>
-        <Arrows setContentToBeShow={setPdfLinkdToRender} list={data}>
+        <Arrows
+          setActiveElement={setSelectedElement}
+          propActiveElement={selectedElement}
+          list={data}
+        >
           <div className={style.holdsIframe}>
-            <iframe src={pdfLinkToRender} width="600px"></iframe>
+            <iframe src={selectedElement?.link} width="600px"></iframe>
           </div>
         </Arrows>
       </div>

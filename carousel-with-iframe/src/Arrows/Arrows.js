@@ -1,10 +1,93 @@
 import style from "./style.module.css";
+import { useState } from "react";
 
-export default function Arrows(props) {
+export default function Arrows({
+  setActiveElement,
+  list,
+  propActiveElement,
+  ...props
+}) {
+  const [preActiveElement, setPreActiveElement] = useState({});
+
+  const [postActiveElement, setPostActiveElement] = useState({});
+
+  function findActiveElementInList(action) {
+    let elementBeforeTheActiveOne;
+    let elementAfterTheActiveOne;
+    let activeElement = undefined;
+
+    if (action === "see previous") {
+      let newActiveElement;
+      let newPreviousElement;
+      let newNextElement;
+
+      for (let listItem of list) {
+        if (isTheActiveElement(listItem)) {
+          console.log(
+            "não há previous pois o elemento já é o primeiro. para aqui"
+          );
+          break;
+        }
+
+        let firstAtLeft = listItem;
+        let secondAtLeft;
+
+        if (listItem.children) {
+          for (let child of listItem.children) {
+            //impede a iteração de continuar
+            if (activeElement) {
+              setPreActiveElement(secondAtLeft);
+              break;
+            } else if (isTheActiveElement(child)) {
+              elementBeforeTheActiveOne = secondAtLeft;
+              activeElement = firstAtLeft;
+              elementAfterTheActiveOne = child;
+            } else {
+              secondAtLeft = firstAtLeft;
+              firstAtLeft = child;
+            }
+          }
+        }
+        //impede a iteração de continuar
+        if (!activeElement) {
+          for (let listItem of list) {
+            if (activeElement) {
+              setPreActiveElement(secondAtLeft);
+              break;
+            } else if (isTheActiveElement(listItem)) {
+              elementBeforeTheActiveOne = secondAtLeft;
+              activeElement = firstAtLeft;
+              elementAfterTheActiveOne = listItem;
+            } else {
+              secondAtLeft = firstAtLeft;
+              firstAtLeft = listItem;
+            }
+          }
+        }
+
+        setPreActiveElement(elementBeforeTheActiveOne);
+        setPostActiveElement(elementAfterTheActiveOne);
+        setActiveElement(activeElement);
+      }
+    }
+  }
+
+  function isTheActiveElement(element) {
+    if (
+      propActiveElement.label == element.label &&
+      propActiveElement.link == element.link &&
+      propActiveElement.value == element.value
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   return (
     <>
       <div className={style.arrowContainer}>
-        <span>
+        <span onClick={() => findActiveElementInList("see previous")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="40.208"
@@ -22,7 +105,7 @@ export default function Arrows(props) {
       </div>
       {props.children}
       <div className={style.arrowContainer}>
-        <span>
+        <span onClick={findActiveElementInList}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="40.208"
