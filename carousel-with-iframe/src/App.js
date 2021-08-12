@@ -14,7 +14,7 @@ function App() {
   }
 
   useEffect(() => {
-    console.log("aquiiiiiiiiii", selectedElement);
+    console.log(selectedElement);
   }, [selectedElement]);
 
   return (

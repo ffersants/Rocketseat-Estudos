@@ -17,22 +17,13 @@ export default function Arrows({
     let activeElement = undefined;
 
     if (action === "see previous") {
-      let newActiveElement;
-      let newPreviousElement;
-      let newNextElement;
-
+      let firstAtLeft;
+      let secondAtLeft;
       for (let listItem of list) {
-        if (isTheActiveElement(listItem)) {
-          console.log(
-            "não há previous pois o elemento já é o primeiro. para aqui"
-          );
-          break;
-        }
-
-        let firstAtLeft = listItem;
-        let secondAtLeft;
+        firstAtLeft = listItem;
 
         if (listItem.children) {
+          console.log("veio aqui");
           for (let child of listItem.children) {
             //impede a iteração de continuar
             if (activeElement) {
@@ -47,28 +38,24 @@ export default function Arrows({
               firstAtLeft = child;
             }
           }
-        }
-        //impede a iteração de continuar
-        if (!activeElement) {
-          for (let listItem of list) {
-            if (activeElement) {
-              setPreActiveElement(secondAtLeft);
-              break;
-            } else if (isTheActiveElement(listItem)) {
-              elementBeforeTheActiveOne = secondAtLeft;
-              activeElement = firstAtLeft;
-              elementAfterTheActiveOne = listItem;
-            } else {
-              secondAtLeft = firstAtLeft;
-              firstAtLeft = listItem;
-            }
+        } else {
+          if (activeElement) {
+            setPreActiveElement(secondAtLeft);
+            break;
+          } else if (isTheActiveElement(listItem)) {
+            elementBeforeTheActiveOne = secondAtLeft;
+            console.log(elementBeforeTheActiveOne);
+            activeElement = firstAtLeft;
+            elementAfterTheActiveOne = listItem;
+          } else {
+            secondAtLeft = firstAtLeft;
+            firstAtLeft = listItem;
           }
         }
-
-        setPreActiveElement(elementBeforeTheActiveOne);
-        setPostActiveElement(elementAfterTheActiveOne);
-        setActiveElement(activeElement);
       }
+      setPreActiveElement(elementBeforeTheActiveOne);
+      setPostActiveElement(elementAfterTheActiveOne);
+      setActiveElement(activeElement);
     }
   }
 
