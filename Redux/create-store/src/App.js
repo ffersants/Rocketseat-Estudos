@@ -7,7 +7,19 @@ function App() {
     expectation: 'be rich'
   }
 
+  function feelingReducer(value = feelingCreator(), action){
+    switch(action.type){
+      case 'CONCAT' :
+        return value.payload + action.payload
+      case 'UPDATE' :
+        return action.payload
+      default :
+        return value.payload
+    }
+  }
+
   function reducer(state = myObject, action){
+
     if(action.type === 'updateFeelling'){
       return{
         ...state,
@@ -28,8 +40,12 @@ function App() {
   const [inputExpectation, setExpectationValue] = useState('') 
 
   function updateInput(){
+    console.log('Antes era assim', store.getState())
+    
     store.dispatch(feelingCreator(inputFeelling))
+    store.dispatch(expectationCreator(inputExpectation))
 
+    console.log('Agora é assim', store.getState())
   }
 
   function feelingCreator(value) {
