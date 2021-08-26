@@ -25,9 +25,9 @@ function App() {
     }
   }
 
-  const reducer = combineReducers({onlySum, onlySub})
+  // const reducer = combineReducers({onlySum, onlySub})
 
-  const store = configureStore({reducer})
+  const store = configureStore({reducer: onlySum, onlySub})
 
   function increment(){
     console.log('Era assim -> ', store.getState())
